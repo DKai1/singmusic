@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.test.dao.MusicMapper" >
+  <resultMap id="BaseResultMap" type="com.ssm.test.model.Music" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="musicName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="coverUrl" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="resourceUrl" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="classify" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="heat" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="clickupnum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, musicName, coverUrl, resourceUrl, classify, heat, clickupnum
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ssm.test.model.MusicExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_music
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_music
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_music
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ssm.test.model.MusicExample" >
+    delete from tb_music
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ssm.test.model.Music" >
+    insert into tb_music (id, musicName, coverUrl, 
+      resourceUrl, classify, heat, 
+      clickupnum)
+    values (#{id,jdbcType=INTEGER}, #{musicname,jdbcType=VARCHAR}, #{coverurl,jdbcType=VARCHAR}, 
+      #{resourceurl,jdbcType=VARCHAR}, #{classify,jdbcType=INTEGER}, #{heat,jdbcType=INTEGER}, 
+      #{clickupnum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssm.test.model.Music" >
+    insert into tb_music
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="musicname != null" >
+        musicName,
+      </if>
+      <if test="coverurl != null" >
+        coverUrl,
+      </if>
+      <if test="resourceurl != null" >
+        resourceUrl,
+      </if>
+      <if test="classify != null" >
+        classify,
+      </if>
+      <if test="heat != null" >
+        heat,
+      </if>
+      <if test="clickupnum != null" >
+        clickupnum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="musicname != null" >
+        #{musicname,jdbcType=VARCHAR},
+      </if>
+      <if test="coverurl != null" >
+        #{coverurl,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceurl != null" >
+        #{resourceurl,jdbcType=VARCHAR},
+      </if>
+      <if test="classify != null" >
+        #{classify,jdbcType=INTEGER},
+      </if>
+      <if test="heat != null" >
+        #{heat,jdbcType=INTEGER},
+      </if>
+      <if test="clickupnum != null" >
+        #{clickupnum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ssm.test.model.MusicExample" resultType="java.lang.Integer" >
+    select count(*) from tb_music
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_music
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.musicname != null" >
+        musicName = #{record.musicname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coverurl != null" >
+        coverUrl = #{record.coverurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resourceurl != null" >
+        resourceUrl = #{record.resourceurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classify != null" >
+        classify = #{record.classify,jdbcType=INTEGER},
+      </if>
+      <if test="record.heat != null" >
+        heat = #{record.heat,jdbcType=INTEGER},
+      </if>
+      <if test="record.clickupnum != null" >
+        clickupnum = #{record.clickupnum,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_music
+    set id = #{record.id,jdbcType=INTEGER},
+      musicName = #{record.musicname,jdbcType=VARCHAR},
+      coverUrl = #{record.coverurl,jdbcType=VARCHAR},
+      resourceUrl = #{record.resourceurl,jdbcType=VARCHAR},
+      classify = #{record.classify,jdbcType=INTEGER},
+      heat = #{record.heat,jdbcType=INTEGER},
+      clickupnum = #{record.clickupnum,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssm.test.model.Music" >
+    update tb_music
+    <set >
+      <if test="musicname != null" >
+        musicName = #{musicname,jdbcType=VARCHAR},
+      </if>
+      <if test="coverurl != null" >
+        coverUrl = #{coverurl,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceurl != null" >
+        resourceUrl = #{resourceurl,jdbcType=VARCHAR},
+      </if>
+      <if test="classify != null" >
+        classify = #{classify,jdbcType=INTEGER},
+      </if>
+      <if test="heat != null" >
+        heat = #{heat,jdbcType=INTEGER},
+      </if>
+      <if test="clickupnum != null" >
+        clickupnum = #{clickupnum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssm.test.model.Music" >
+    update tb_music
+    set musicName = #{musicname,jdbcType=VARCHAR},
+      coverUrl = #{coverurl,jdbcType=VARCHAR},
+      resourceUrl = #{resourceurl,jdbcType=VARCHAR},
+      classify = #{classify,jdbcType=INTEGER},
+      heat = #{heat,jdbcType=INTEGER},
+      clickupnum = #{clickupnum,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
